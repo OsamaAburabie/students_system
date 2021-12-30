@@ -5,7 +5,15 @@ exports.validate = (method) => {
     case "register": {
       return [
         check("name").not().isEmpty().withMessage("Name is required"),
-        check("email").isEmail().withMessage("Email is required"),
+        check("email")
+          .isEmail()
+          .withMessage("Email is required")
+          .custom((value) => {
+            if (!value.endsWith("@gmail.com")) {
+              throw new Error("Email must end with @gmail.com");
+            }
+            return true;
+          }),
         check("password")
           .isLength({ min: 8 })
           .withMessage("Password must be at least 8 characters long"),
