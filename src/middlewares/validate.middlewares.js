@@ -6,8 +6,11 @@ exports.validate = (method) => {
       return [
         check("name").not().isEmpty().withMessage("Name is required"),
         check("email")
-          .isEmail()
+          .not()
+          .isEmpty()
           .withMessage("Email is required")
+          .isEmail()
+          .withMessage("Unvalid email")
           .custom((value) => {
             if (!value.endsWith("@gmail.com")) {
               throw new Error("Email must end with @gmail.com");

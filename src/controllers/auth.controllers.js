@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { getUser } = require("../utils/getUser");
 const generateToken = require("../utils/generateToken");
 
 /*
@@ -13,16 +14,17 @@ const register = async (req, res) => {
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
-    const user = new User(req.body);
+    //remove the role from the request body
+    delete req.body.role;
+
+    let user = new User(req.body);
     await user.save();
 
-    //return the user info except the password
-    const userInfo = user.toObject();
-    delete userInfo.password;
+    //remove the password from the response
+    user = user.toObject();
+    delete user.password;
 
-    return res
-      .status(201)
-      .json({ user: userInfo, token: generateToken(userInfo._id) });
+    return res.status(201).json({ user, token: generateToken(user._id) });
   } catch (error) {
     console.log(error);
     return res.status(500);
@@ -37,7 +39,8 @@ const register = async (req, res) => {
 */
 const login = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
+
     if (!user)
       return res.status(400).json({ message: "Invalid password or email" });
 
@@ -46,12 +49,10 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid password or email" });
 
     //return the user info except the password
-    const userInfo = user.toObject();
-    delete userInfo.password;
+    user = user.toObject();
+    delete user.password;
 
-    return res
-      .status(200)
-      .json({ user: userInfo, token: generateToken(userInfo._id) });
+    return res.status(200).json({ user, token: generateToken(user._id) });
   } catch (error) {
     console.log(error);
     return res.status(500);

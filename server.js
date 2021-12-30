@@ -15,3 +15,5 @@ app.listen(PORT, async () => {
 app.use("/api/health", require("./src/routes/health.routes"));
 //==================== AUTH ROUTES ============================
 app.use("/api/auth", require("./src/routes/auth.routes"));
+//==================== ADMIN ROUTES ============================
+app.use("/api/admin", require("./src/routes/admin.routes"));
