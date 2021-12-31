@@ -17,3 +17,7 @@ app.use("/api/health", require("./src/routes/health.routes"));
 app.use("/api/auth", require("./src/routes/auth.routes"));
 //==================== ADMIN ROUTES ============================
 app.use("/api/admin", require("./src/routes/admin.routes"));
+//==================== GUARD ROUTES ============================
+app.use("/api/guard", require("./src/routes/guard.routes"));
+//==================== STUDENT ROUTES ============================
+app.use("/api/student", require("./src/routes/student.routes"));

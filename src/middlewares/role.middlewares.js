@@ -1,9 +1,10 @@
 const { getUser } = require("../utils/getUser");
+const User = require("../models/user.model");
 
 const role = (role) => {
   return async (req, res, next) => {
     try {
-      const user = await getUser({ _id: req.userId });
+      const user = await User.findOne({ _id: req.userId });
       if (!user) return res.status(401).json({ message: "Unauthorized" });
       if (user.role !== role) {
         return res.status(403).json({ message: "Forbidden" });

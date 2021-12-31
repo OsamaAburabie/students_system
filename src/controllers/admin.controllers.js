@@ -1,4 +1,3 @@
-const { getUser } = require("../utils/getUser");
 const User = require("../models/user.model");
 
 const changeRole = async (req, res) => {

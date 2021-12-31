@@ -1,5 +1,5 @@
-const { check, validationResult } = require("express-validator");
-
+const { check, param, validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 exports.validate = (method) => {
   switch (method) {
     case "register": {
@@ -38,6 +38,7 @@ exports.validate = (method) => {
         check("role").not().isEmpty().withMessage("Role is required"),
       ];
     }
+
     default: {
       return [];
     }
