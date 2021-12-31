@@ -2,12 +2,6 @@ const User = require("../models/user.model");
 const { getUser } = require("../utils/getUser");
 const generateToken = require("../utils/generateToken");
 
-/*
-@route POST /api/auth/register
-@desc Register a user
-@access Public
-@body { name, email, password, uni_student_id, dob, avatar }
-*/
 const register = async (req, res) => {
   try {
     const userExists = await User.findOne({ email: req.body.email });
@@ -31,12 +25,6 @@ const register = async (req, res) => {
   }
 };
 
-/*
-@route POST /api/auth/login
-@desc Login a user
-@access Public
-@body { email, password }
-*/
 const login = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });

@@ -32,6 +32,12 @@ exports.validate = (method) => {
         check("password").not().isEmpty().withMessage("Password is required"),
       ];
     }
+    case "roleChange": {
+      return [
+        check("email").isEmail().withMessage("Email is required"),
+        check("role").not().isEmpty().withMessage("Role is required"),
+      ];
+    }
     default: {
       return [];
     }
