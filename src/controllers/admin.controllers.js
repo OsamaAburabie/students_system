@@ -10,7 +10,9 @@ const changeRole = async (req, res) => {
       { new: true }
     );
     if (!user) return res.status(400).json({ message: "User does not exist" });
-    return res.status(200).json({ message: "Role changed successfully" });
+    return res
+      .status(200)
+      .json({ message: "Role changed successfully", role: user.role });
   } catch (error) {
     console.log(error);
     return res.status(500);
