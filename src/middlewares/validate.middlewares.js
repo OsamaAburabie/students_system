@@ -1,11 +1,11 @@
 const { check, param, validationResult } = require("express-validator");
-const mongoose = require("mongoose");
 exports.validate = (method) => {
   switch (method) {
     case "register": {
       return [
-        check("name").not().isEmpty().withMessage("Name is required"),
+        check("name").trim().not().isEmpty().withMessage("Name is required"),
         check("email")
+          .trim()
           .not()
           .isEmpty()
           .withMessage("Email is required")
@@ -18,17 +18,19 @@ exports.validate = (method) => {
             return true;
           }),
         check("password")
+          .trim()
           .isLength({ min: 8 })
           .withMessage("Password must be at least 8 characters long"),
-        check("uni_student_id")
-          .not()
-          .isEmpty()
-          .withMessage("University Student ID is required"),
+        // check("uni_student_id")
+        //   .trim()
+        //   .not()
+        //   .isEmpty()
+        //   .withMessage("University Student ID is required"),
       ];
     }
     case "login": {
       return [
-        check("email").isEmail().withMessage("Email is required"),
+        check("email").trim().isEmail().withMessage("Email is required"),
         check("password").not().isEmpty().withMessage("Password is required"),
       ];
     }

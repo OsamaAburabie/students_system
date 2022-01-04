@@ -9,6 +9,7 @@ const router = express.Router();
 @desc Get the student's information
 @access Private
 @params { id }
+@header { x-auth-token: <token> }
 */
 router.post("/vaccine", auth, role("student"), uploadVaccine);
 

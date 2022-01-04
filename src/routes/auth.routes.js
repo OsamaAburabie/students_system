@@ -1,5 +1,10 @@
 const express = require("express");
-const { register, login } = require("../controllers/auth.controllers");
+const {
+  register,
+  login,
+  checkToken,
+} = require("../controllers/auth.controllers");
+const auth = require("../middlewares/auth.middlewares");
 const {
   validate,
   validateResult,
@@ -20,5 +25,13 @@ router.post("/register", validate("register"), validateResult, register);
 @body { email, password }
 */
 router.post("/login", validate("login"), validateResult, login);
+
+/*
+@route POST /api/auth/check-token
+@desc Check if the token is valid
+@access Public
+@header { x-auth-token: <token> }
+*/
+router.get("/check-token", auth, checkToken);
 
 module.exports = router;

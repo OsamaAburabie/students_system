@@ -12,6 +12,7 @@ const router = express.Router();
 @desc Change role of a user
 @access Private
 @body { email, role }
+@header { x-auth-token: <token> }
 */
 router.post(
   "/role",

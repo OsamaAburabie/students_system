@@ -1,10 +1,12 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connect = require("./src/utils/connect");
+const cors = require("cors");
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 //==================== MIDDLEWARES ============================
 const app = express();
+app.use(cors());
 app.use(express.json());
 //==================== SERVER LOGIC ===========================
 app.listen(PORT, async () => {
