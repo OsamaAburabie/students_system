@@ -18,13 +18,18 @@ const uploadVaccine = async (req, res) => {
 };
 
 const uploadAvatar = async (req, res) => {
+  const avatar = req?.file?.path;
+  if (!avatar)
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide image" });
   try {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    let user = await User.findOne({ _id: req.userId });
-    if (!user) return res.status(400).json({ message: "User not found" });
-
-    user.avatar = result.url;
-    await user.save();
+    const result = await cloudinary.uploader.upload(avatar);
+    let user = await User.findOneAndUpdate(
+      { _id: req.userId },
+      { avatar: result.url },
+      { new: true }
+    );
 
     user = user.toObject();
     delete user.password;

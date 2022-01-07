@@ -12,4 +12,4 @@ module.exports = mluter({
     }
     cb(null, true);
   },
-});
+}).single("image");

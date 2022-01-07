@@ -15,12 +15,6 @@ const router = express.Router();
 @header { x-auth-token: <token> }
 */
 router.post("/vaccine", auth, role("student"), uploadVaccine);
-router.post(
-  "/avatar",
-  auth,
-  role("student"),
-  upload.single("avatar"),
-  uploadAvatar
-);
+router.post("/avatar", auth, role("student"), upload, uploadAvatar);
 
 module.exports = router;
