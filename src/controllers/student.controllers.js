@@ -1,6 +1,7 @@
 const Vaccine = require("../models/vaccine.model");
 const User = require("../models/user.model");
 const cloudinary = require("../utils/cloudinary");
+const fs = require("fs");
 
 const uploadVaccine = async (req, res) => {
   const { image } = req.body;
@@ -44,12 +45,30 @@ const uploadAvatar = async (req, res) => {
   //   });
   // }
 
-  const avatar = req.files.photo.tempFilePath;
-  const result = await cloudinary.uploader.upload(avatar);
-  console.log(result);
+  try {
+    const avatar = req?.files?.image?.tempFilePath;
+    if (!avatar)
+      return res.status(400).json({ message: "Please provide image" });
+    const result = await cloudinary.uploader.upload(avatar);
+    let user = await User.findOneAndUpdate(
+      { _id: req.userId },
+      { avatar: result.url },
+      { new: true }
+    );
 
-  console.log(avatar);
-  res.send("upload avatar");
+    fs.unlinkSync(avatar);
+
+    user = user.toObject();
+    delete user.password;
+
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
 };
 
 module.exports = {

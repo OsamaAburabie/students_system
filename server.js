@@ -10,8 +10,8 @@ const app = express();
 app.use(
   imageupload({
     useTempFiles: true,
-    tempFileDir: "./tmp",
-    debug: true,
+    createParentPath: true,
+    limits: { fileSize: 2 * 1024 * 1024 },
   })
 );
 app.use(cors());
