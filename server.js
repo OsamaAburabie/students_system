@@ -2,10 +2,18 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connect = require("./src/utils/connect");
 const cors = require("cors");
+const imageupload = require("express-fileupload");
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 //==================== MIDDLEWARES ============================
 const app = express();
+app.use(
+  imageupload({
+    useTempFiles: true,
+    tempFileDir: "./tmp",
+    debug: true,
+  })
+);
 app.use(cors());
 app.use(express.json());
 //==================== SERVER LOGIC ===========================

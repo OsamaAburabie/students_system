@@ -18,31 +18,38 @@ const uploadVaccine = async (req, res) => {
 };
 
 const uploadAvatar = async (req, res) => {
-  const avatar = req?.file?.path;
-  if (!avatar)
-    return res
-      .status(400)
-      .json({ success: false, message: "Please provide image" });
-  try {
-    const result = await cloudinary.uploader.upload(avatar);
-    let user = await User.findOneAndUpdate(
-      { _id: req.userId },
-      { avatar: result.url },
-      { new: true }
-    );
+  // const avatar = req?.file?.path;
+  // if (!avatar)
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "Please provide image" });
+  // try {
+  //   const result = await cloudinary.uploader.upload(avatar);
+  //   let user = await User.findOneAndUpdate(
+  //     { _id: req.userId },
+  //     { avatar: result.url },
+  //     { new: true }
+  //   );
 
-    user = user.toObject();
-    delete user.password;
+  //   user = user.toObject();
+  //   delete user.password;
 
-    res.status(200).json({ success: true, user });
-  } catch (error) {
-    console.log(error);
+  //   res.status(200).json({ success: true, user });
+  // } catch (error) {
+  //   console.log(error);
 
-    res.status(500).json({
-      success: false,
-      message: req.file_error,
-    });
-  }
+  //   res.status(500).json({
+  //     success: false,
+  //     message: req.file_error,
+  //   });
+  // }
+
+  const avatar = req.files.photo.tempFilePath;
+  const result = await cloudinary.uploader.upload(avatar);
+  console.log(result);
+
+  console.log(avatar);
+  res.send("upload avatar");
 };
 
 module.exports = {
